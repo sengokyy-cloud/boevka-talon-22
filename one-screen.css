@@ -1,0 +1,113 @@
+/* A portrait artwork leaf and a separate reading strip; browser chrome never eats the controls. */
+body {background-color:#f0dfb7}
+.game-shell {min-height:0;margin:0 auto}
+.game-shell > .book {
+  height:100vh;height:100dvh;min-height:0;
+  padding:max(6px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));
+  grid-template:"picture" minmax(0,1fr) "script" auto / minmax(0,1fr);
+  gap:.28rem;border-radius:0;box-shadow:none
+}
+.book .art-slot {
+  grid-area:picture;display:grid;place-items:end center;
+  width:100%;min-width:0;min-height:0;container-type:size
+}
+.book .art-window {
+  height:100%;width:auto;max-width:100%;aspect-ratio:9/16;
+  width:min(100cqw,56.25cqh);height:auto;
+  grid-area:auto;border:none;background:none;border-radius:.65rem;
+  box-shadow:0 0 0 1px #8b73546b,0 2px 6px #513f312e
+}
+.book .art-window .scene-art{object-fit:cover}
+#sound {
+  position:absolute;z-index:24;right:8px;top:8px;
+  color:#fffbe9;text-shadow:0 1px 2px #000;
+  background:#18221f55;border-color:#fffdf088;
+  box-shadow:0 1px 4px #1117;
+}
+#sound[aria-pressed=true]{background:#18221f8c}
+#sound:focus-visible,#skip-cut:focus-visible{outline-color:#fff7cd;outline-offset:2px}
+.art-transport{position:absolute;z-index:25;bottom:7px;left:7px;right:7px;display:flex;justify-content:space-between;align-items:center;gap:8px;pointer-events:none}
+.art-transport #cut-dots{min-width:0;margin:0;gap:4px;padding:7px;border-radius:9px;background:#21312e9e}
+.art-transport #cut-dots:empty{display:none}
+.art-transport #cut-dots span{width:clamp(5px,2.4vw,14px);background:#ffefd05e}
+.art-transport #cut-dots span.past{background:#ead8a5}
+.art-transport #cut-dots span.now{background:#fff6ce}
+#skip-cut {margin-left:auto;pointer-events:auto;min-height:44px;padding:0 10px;background:#1c2a27b8;color:#fff7df;border:1px solid #fff5d29e;border-radius:.55rem;font-size:.82rem;font-weight:700;white-space:nowrap}
+.book > .scene-copy,.game-shell .book[aria-busy] > .scene-copy {
+  margin:0;padding:.44rem .58rem .54rem;
+  align-self:start;min-width:0;width:min(100%,34rem);justify-self:center;
+  border-color:#baa57a;border-radius:.55rem;box-shadow:0 2px 0 #b7a47f55
+}
+.scene-heading {display:flex;align-items:baseline;justify-content:space-between;gap:.42rem}
+.book .scene-title {font-size:clamp(1.25rem,5.55vw,1.78rem);line-height:1.04;text-wrap:initial}
+.scene-folio{flex:none;font:bold .73rem var(--sans);color:#795a4e;font-variant-numeric:tabular-nums;letter-spacing:.05em}
+.book .scene-description,.book .scene-feedback {
+  margin:.30rem 0 0;padding:0;font-size:1rem;line-height:1.26;
+  text-wrap:wrap;overflow-wrap:break-word;
+}
+.book .scene-description > p + p{margin-top:.23em}
+.book .scene-feedback {border:0;background:none;color:#703548;box-shadow:none}
+.scene-copy:has(> .scene-feedback:not([hidden])) .scene-description{display:none}
+.book .scene-copy .choices.controls {grid-template-columns:minmax(0,1fr);margin-top:.37rem;padding:0;gap:.34rem}
+.book .scene-copy .choices.has-choices{grid-template-columns:repeat(2,minmax(0,1fr))}
+.book .scene-copy .choices.has-choices > :nth-child(3){grid-column:1/-1}
+.book .choice{min-height:44px;padding:.33rem .42rem;font-size:.89rem;line-height:1.16}
+.book .note-card{margin-top:.34rem;padding:.27rem .43rem .31rem .85rem}
+.book .note-message{margin:0;font-size:1rem;line-height:1.2}
+.book .note-signature{margin:.16rem 0 0;font-size:.92rem}
+.book .verse-slot:empty{min-height:1.44em;padding:0}
+.book .note-card .stamp{display:none}
+@media (min-width:52rem) {
+  body {background-color:#283830}
+  .game-shell {width:min(100%,68rem)}
+  .game-shell > .book{
+    grid-template:"picture script" minmax(0,1fr) / minmax(0,.96fr) minmax(0,1.04fr);
+    gap:clamp(12px,3vw,38px);height:100dvh;
+    padding:clamp(12px,3.2dvh,32px) clamp(22px,4vw,49px);
+    border:1px solid var(--binding-line);border-radius:1.2rem
+  }
+  .book .art-slot{place-items:center end}
+  .book > .scene-copy,.game-shell .book[aria-busy] > .scene-copy{align-self:center;justify-self:start;padding:1rem 1.15rem}
+  .book .scene-title{font-size:clamp(1.9rem,3.2vw,2.7rem)}
+  .book .scene-description,.book .scene-feedback{font-size:1.02rem;line-height:1.38}
+}
+@media (max-height:470px) and (orientation:landscape) {
+  .game-shell > .book{grid-template:"picture script" minmax(0,1fr) / minmax(0,.86fr) minmax(0,1.14fr);gap:.48rem}
+  .book .art-slot{place-items:center end}
+  .book > .scene-copy,.game-shell .book[aria-busy] > .scene-copy{align-self:center;justify-self:start}
+}
+/* At unusually large accessibility zoom let the layout grow instead of clipping the text. */
+@media (max-height:400px) and (orientation:portrait) {
+  .game-shell > .book{min-height:400px}
+}
+
+/* The finale opens onto the notebook itself, not another caption card. */
+.book.is-finale .art-window{
+  aspect-ratio:900/1150;
+  width:min(100cqw,78.26cqh);
+  height:auto;
+  container-type:inline-size;
+  background:#252e22;
+}
+.book[data-scene="10"] .art-window .scene-art{
+  width:100%;
+  height:139.03%;
+  top:-10.6%;
+  right:auto;
+  bottom:auto;
+  object-fit:fill;
+}
+.book.is-finale .art-window .note-card{
+  position:absolute;z-index:8;inset:25% 5% auto 54%;margin:0;padding:0;
+  color:#433326;background:none;box-shadow:none;border:0;border-radius:0;
+}
+.book.is-finale .art-window .note-card::before,.book.is-finale .art-window .note-card::after,
+.book.is-finale .art-window .verse-slot:empty{display:none}
+.book.is-finale .art-window .note-message{
+  color:#453223;font-family:Georgia,serif;font-size:clamp(.76rem,4.45cqw,1.35rem);
+  line-height:1.13;white-space:pre-line;overflow-wrap:normal
+}
+.book.is-finale .art-window .note-signature{
+  color:#613d31;font-family:Georgia,serif;font-style:italic;font-size:clamp(.77rem,4.55cqw,1.4rem);
+  margin:.52em 0 0;
+}

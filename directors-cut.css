@@ -1,0 +1,317 @@
+/* Director's cut: illustration, controls and captions occupy separate rows. */
+body {
+  --matte: #34433b;
+  --matte-edge: #25342e;
+  --binding: #f0dfb7;
+  --binding-line: #bda877;
+  background:
+    radial-gradient(ellipse at 50% 16%, #485247, transparent 62%),
+    linear-gradient(145deg, #27342f, #222b29 63%, #2a2529);
+}
+
+.game-shell {
+  width: min(100%, 36rem);
+  max-width: none;
+  margin: 0 auto;
+}
+
+.game-shell > .book {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+  min-height: auto;
+  margin: 0;
+  padding: 0 clamp(.68rem, 3vw, 1.1rem) .95rem;
+  display: grid;
+  grid-template: "hud" auto "picture" auto "caption" auto "script" auto / minmax(0, 1fr);
+  gap: 0;
+  color: var(--ink);
+  background-color: var(--binding);
+  background-image: var(--paper-fiber), linear-gradient(110deg, #f7e9c8, #f0dfb7 76%, #e8d3a5);
+  perspective: none;
+  transform-style: flat;
+  box-shadow: 0 3px 0 #9c8a66, 0 5px 0 -1px #cfba8c, 0 11px 30px #161a185c;
+  border: 0;
+  border-radius: 0 0 1rem 1rem;
+}
+.game-shell > .book::before {
+  z-index: -1;
+  background: linear-gradient(90deg, #93794a1c, transparent 4%, transparent 96%, #93794a1c);
+}
+
+.book .scene-hud {
+  grid-area: hud;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: .6rem;
+  row-gap: .2rem;
+  align-items: center;
+  padding:
+    max(.36rem, env(safe-area-inset-top, 0px))
+    0 .45rem;
+  min-width: 0;
+  color: var(--ink);
+}
+.scene-hud .eyebrow {
+  min-height: auto;
+  justify-self: start;
+  padding: .18rem 0;
+  background: none;
+  box-shadow: none;
+  border: 0;
+  border-radius: 0;
+  color: #394942;
+  font-size: .76rem;
+  font-weight: 850;
+  letter-spacing: .14em;
+}
+.scene-hud .eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: .44rem;
+  height: .44rem;
+  margin-inline-end: .17rem;
+  border-radius: 1px;
+  background: #8e594d;
+  transform: rotate(45deg);
+}
+.scene-hud .hud-tools { grid-column: 2; margin-inline-start: 0; }
+.scene-hud .hud-button {
+  min-width: 44px;
+  min-height: 44px;
+  color: #365149;
+  background: #fff6dbde;
+  border: 1px solid #b7a677;
+  backdrop-filter: none;
+  box-shadow: 0 1px 0 #ada07579;
+}
+.scene-hud .hud-button[aria-pressed=true] { color: #fff3d4; background: #365449; border-color: #365449; }
+.book .scene-hud .progress {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-height: 0;
+  height: .625rem;
+  gap: .19rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: start;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.book .scene-hud .progress:empty { display: none; }
+.book .progress > :is(span,li,i,.progress-dot) {
+  flex: 1;
+  width: auto;
+  height: .20rem;
+  background: #a0896b4d;
+  border: 0;
+  border-radius: 999px;
+  transition: background-color 160ms;
+}
+.book .progress > :is(.is-past,.is-done,.is-complete) { background: #927e63; }
+.book .progress > :is(.is-active,.active,.is-current,[aria-current='step']) {
+  height: .26rem;
+  background: #7b3b49;
+  box-shadow: none;
+}
+
+.book .art-window {
+  grid-area: picture;
+  position: relative;
+  isolation: isolate;
+  z-index: 0;
+  inset: auto;
+  width: 100%;
+  min-width: 0;
+  height: 29rem;
+  height: clamp(25rem, 58svh, 34rem);
+  overflow: hidden;
+  background-color: var(--matte);
+  background-image:
+    radial-gradient(ellipse at 50% 42%, #6c73615e 0%, transparent 68%),
+    linear-gradient(125deg, #ffffff0e, #11241f3f);
+  border: 1px solid var(--matte-edge);
+  border-radius: .7rem .85rem .7rem .85rem;
+  box-shadow: 0 0 0 1px #fff4d6bb, 0 2px 8px #47392c57, inset 0 0 12px #16221e71;
+  transition: background-color 280ms ease;
+}
+.book[data-mood="afternoon"] { --matte: #4a5142; --matte-edge: #303b30; }
+.book[data-mood="golden"] { --matte: #6a5740; --matte-edge: #493b33; }
+.book[data-mood="sunset"] { --matte: #644b4a; --matte-edge: #3d3136; }
+.book[data-mood="twilight"] { --matte: #3a3d4c; --matte-edge: #282a36; }
+.book[data-mood="night"] { --matte: #2a3641; --matte-edge: #202530; }
+.book[data-mood="paper"] { --matte: #554448; --matte-edge: #3d3237; }
+.book .art-window .scene-art,
+.book .art-window .cinema-layer,
+.book .art-window .cinema-layer :is(img,video,canvas,svg) {
+  position: absolute;
+  display: block;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+  object-position: center;
+}
+.book .art-window .scene-art {
+  z-index: 0;
+  opacity: 1;
+  transform: none;
+}
+.book .art-window .paper-sky { display: none; }
+.book .art-window .stage-fx { z-index: 7; background: none; pointer-events: none; }
+.book .art-window .flip-layer {
+  z-index: 8;
+  border-radius: inherit;
+  perspective-origin: 16% 50%;
+}
+.book .art-window .flip-sheet > .face-front,
+.book .art-window .flip-sheet > .face-back {
+  background-size: 100% 100%, 100% 100%, contain;
+  background-position: center;
+}
+.book .art-window .flip-sheet > .face-front {
+  background-color: var(--matte);
+  background-image: linear-gradient(90deg,#291d3096,transparent 9%,transparent 72%,#f9e6ae69 100%), linear-gradient(0deg,#1f221a42,transparent 24%), var(--current-art, none);
+}
+.book .art-window .flip-sheet > .face-back {
+  background-color: #d2b784;
+  background-image: linear-gradient(90deg,#f8e7bda3,#b4855855 67%,#3b292c6b), var(--paper-fiber), var(--next-art, none);
+}
+.book .art-window .cinema-layer {
+  z-index: 5;
+  isolation: isolate;
+  pointer-events: none;
+  background: var(--matte);
+}
+.book .art-window .cinema-layer:not([hidden]) {
+  animation: intercut-in 200ms ease-out both;
+}
+@keyframes intercut-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.book[data-scene="10"] .art-window .scene-art {
+  transform-origin: center;
+  animation: uncropped-notebook-reveal 810ms ease-out both;
+}
+@keyframes uncropped-notebook-reveal {
+  from { opacity: .2; transform: scale(.965); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.cinema-caption {
+  grid-area: caption;
+  position: relative;
+  margin: .65rem 0 0;
+  padding: .55rem .75rem .57rem;
+  color: #422e40;
+  background: #fff5dcd9;
+  border: 1px solid #c2a481;
+  border-inline-start: 3px solid #8d4a5a;
+  border-radius: .25rem .4rem .4rem .25rem;
+  font-size: .93rem;
+  line-height: 1.32;
+}
+.cinema-caption:empty { display: none; }
+
+.book > .scene-copy {
+  grid-area: script;
+  position: relative;
+  inset: auto;
+  width: 100%;
+  margin: .8rem 0 0;
+  padding: .88rem clamp(.78rem, 3.6vw, 1.06rem) .99rem;
+  align-self: start;
+  z-index: 1;
+  border: 1px solid #c4a97c;
+  border-radius: .65rem .8rem .72rem .66rem;
+  background-color: #fff4d9;
+  background-image: var(--paper-fiber), linear-gradient(150deg, #fff7df, #f9ebc9);
+  box-shadow: 0 2px 0 #d7bc8a, 0 4px 7px #634f3522;
+}
+.book > .scene-copy::before { content: none; }
+.book .scene-title {
+  font-size: clamp(1.58rem, 6.7vw, 2.4rem);
+  line-height: 1.04;
+}
+.book .scene-description {
+  font-size: clamp(.96rem, 3.85vw, 1.08rem);
+  line-height: 1.43;
+}
+.book .scene-copy .choices.controls { gap: .49rem; margin-top: .66rem; }
+.book .choice {
+  min-height: 46px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.book .note-card { margin-top: 1rem; }
+.book .scene-feedback { overflow-wrap: anywhere; }
+.book .scene-hud :focus-visible { outline-color: #3c4674; }
+.game-footer {
+  padding-bottom: max(.38rem, env(safe-area-inset-bottom, 0px));
+  color: #f9efd5;
+  background: transparent;
+}
+.game-footer :focus-visible { outline-color: #ffe5a4; }
+@media (max-height: 650px) and (max-width: 51.99rem) {
+  .book .art-window { height: clamp(20rem, 57svh, 25rem); }
+}
+@media (min-width: 52rem) {
+  .game-shell { width: min(96%, 70rem); margin: 1.35rem auto; }
+  .game-shell > .book {
+    padding: 0 clamp(1.1rem, 2.8vw, 2.1rem) 1.7rem;
+    grid-template:
+      "hud hud" auto
+      "picture script" auto
+      "caption script" auto /
+      minmax(0, 1.14fr) minmax(0, .86fr);
+    column-gap: clamp(1.15rem, 4vw, 3rem);
+    border: 1px solid var(--binding-line);
+    border-radius: 1.3rem;
+  }
+  .book .scene-hud { padding: .7rem 0 .65rem; }
+  .book .scene-hud .progress { max-width: 24rem; justify-self: start; }
+  .book .art-window { height: 37rem; height: clamp(31rem, 72svh, 43rem); }
+  .book > .scene-copy { padding: 1.45rem 1.45rem 1.6rem; margin-top: .08rem; align-self: center; }
+  .book.is-cover > .scene-copy { margin-top: 1.1rem; }
+  .book .scene-title { font-size: clamp(2rem, 3.4vw, 3.05rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book .art-window,
+  .book .progress > :is(span,li,i,.progress-dot) { transition: none; }
+  .book .art-window .cinema-layer:not([hidden]),
+  .book[data-scene="10"] .art-window .scene-art { animation: none; }
+}
+
+/* Optional captions have a reserved row, so playing a cut cannot shove the script. */
+.game-shell > .book:has(> .cinema-caption) { grid-template-rows: auto auto 2.65rem auto; }
+.book > .cinema-caption {
+  align-self: center;
+  min-width: 0;
+  max-height: 2.45rem;
+  margin: .2rem 0 0;
+  overflow: auto;
+  padding: .22rem .55rem;
+  font-size: .86rem;
+  line-height: 1.13;
+}
+@media (min-width: 52rem) {
+  .game-shell > .book:has(> .cinema-caption) { grid-template-rows: auto auto 2.65rem; }
+}
+@media (max-height: 700px) and (max-width: 51.99rem) {
+  .book .scene-hud { padding-top: max(.2rem, env(safe-area-inset-top, 0px)); padding-bottom: .28rem; row-gap: .09rem; }
+  .book .scene-hud .progress { height: .4rem; }
+  .book > .scene-copy { margin-top: .63rem; padding-top: .72rem; }
+}
+@media (forced-colors: active) {
+  .book .scene-hud .progress > [aria-current='step'],
+  .book .scene-hud .progress > .is-active { border: 2px solid Highlight; }
+  .book .art-window, .book > .scene-copy { border: 1px solid CanvasText; }
+}

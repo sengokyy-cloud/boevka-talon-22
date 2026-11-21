@@ -1,0 +1,35 @@
+/* Game-specific finishing layers; CSS-only, no render-time network requests. */
+[hidden]{display:none!important}
+.art-window{position:absolute;inset:0;overflow:hidden}
+.art-window .scene-art{position:absolute;inset:0}
+.paper-sky{position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,rgba(31,34,23,.27),transparent 46%);opacity:.65}
+.hud-tools{display:flex;gap:.42rem;margin-inline-start:auto}
+.hud-button{cursor:pointer;display:grid;place-items:center;width:2.75rem;height:2.75rem;flex:none;border:1px solid #fff4ce78;color:#fff6db;background:#282e24d9;border-radius:50%;backdrop-filter:blur(5px)}
+.hud-button svg{width:1.22rem;height:1.22rem;stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sound-on,.hud-button[aria-pressed=true] .sound-off{display:none}
+.hud-button[aria-pressed=true] .sound-on{display:initial}
+.scene-hud .progress{flex-basis:100%}
+.game-footer .footer-button{min-height:44px;background:none;color:inherit;border:0;font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:.2em;padding-inline:.75em}
+.stage-fx{position:absolute;inset:0;z-index:12;pointer-events:none;overflow:hidden}
+.game-shell dialog{background:#fff1d5;color:#242820;border:2px solid #796c45;border-radius:14px;width:min(92vw,450px);max-height:84dvh;padding:0;box-shadow:0 18px 90px #100b05b0}
+.game-shell dialog::backdrop{background:#262c22a8;backdrop-filter:blur(5px)}
+.route-inner{padding:1rem 1.2rem 1.2rem}
+.route-head{display:flex;gap:1rem;align-items:center;justify-content:space-between}
+.route-head h2{font:700 clamp(1.6rem,6vw,2.05rem)/1.15 Georgia,serif;margin:0}
+.route-close{font:1.8rem/1 Georgia,serif;width:44px;height:44px;border-radius:50%;border:1px solid #b5a16d;background:#f1dcab;color:#242820;cursor:pointer}
+.route-inner p{font-size:.95rem;color:#554b36}
+#route-list{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+#route-list button{width:100%;display:flex;align-items:center;text-align:left;gap:.7rem;min-height:44px;border:1px solid #d9c795;border-radius:5px;background:#fff9e9;color:#2c3027;font:inherit;cursor:pointer;padding:.35em .65em}
+#route-list button[aria-current=step]{border-color:#9d4834;background:#f4ddb2}
+#route-list button:disabled{opacity:.48;cursor:default}
+#route-list .route-number{font-family:ui-monospace,monospace;color:#964432;font-weight:bold}
+.noscript{position:fixed;inset:auto 1rem 1rem;z-index:30;background:#fff7e5;color:#242820;padding:1rem}
+.verse-slot:empty{background:repeating-linear-gradient(to bottom,transparent 0,transparent 1.32em,#977d4d45 1.34em,#977d4d45 1.39em);min-height:5.55em}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important}}
+.progress .is-past{background:#d19b8b}
+/* Final reveal pulls back from the tiny park to the notebook spread. */
+.book[data-scene="10"] .art-window .scene-art{transform-origin:32% 34%;animation:notebook-reveal 1250ms cubic-bezier(.19,.82,.2,1) both}
+@keyframes notebook-reveal{0%{transform:scale(1.53) translate(5%,6%)}100%{transform:scale(1) translate(0,0)}}
+.is-retrying .scene-feedback{animation:retry-nudge 360ms ease-out}
+@keyframes retry-nudge{0%,100%{transform:translateX(0)}25%{transform:translateX(4px)}52%{transform:translateX(-2px)}77%{transform:translateX(1px)}}
+@media(prefers-reduced-motion:reduce){.book[data-scene="10"] .art-window .scene-art,.is-retrying .scene-feedback{animation:none!important}}

@@ -1,0 +1,25 @@
+/* Controls live below the frame and never cover a drawing. */
+.game-shell > .book:has(> .cut-bar){grid-template-rows:auto auto minmax(3.15rem,auto) auto}
+.book > .cut-bar{height:auto;min-height:3.05rem;max-height:none;display:flex;align-items:center;justify-content:space-between;gap:.55rem;margin:.3rem 0 0;padding:.13rem 0;border:0;border-radius:0;background:none;overflow:visible}
+.cut-meta{min-width:0;font-size:.83rem;font-weight:730;font-family:var(--sans);color:#503f31}
+#cut-dots{display:flex;gap:.24rem;margin-top:.26rem}
+#cut-dots>span{width:1.18rem;height:3px;display:inline-block;border-radius:2px;background:#987e6259;transition:background-color .24s}
+#cut-dots>span.past{background:#957355}
+#cut-dots>span.now{background:#8c3c52}
+.cut-bar button{flex:none;min-height:44px;padding:.3rem .68rem;border:1px solid #a28c6d;border-radius:.42rem;background:#fff4d2;color:#563747;cursor:pointer;font:650 .81rem/1.2 var(--sans);touch-action:manipulation}
+.cut-bar button:disabled{cursor:default}
+.book:not([aria-busy=true]) .scene-copy{margin-top:.30rem}
+.book[aria-busy=true] .scene-copy{margin-top:.30rem}
+.game-shell #art-dialog{width:min(94vw,640px);max-height:94dvh;overflow:auto;background:#283730;border-color:#887b55;color:#f6edce}
+.art-dialog-head{display:flex;gap:1rem;align-items:center;justify-content:space-between;padding:.4rem .75rem}
+.art-dialog-head h2{font:700 clamp(1.06rem,4vw,1.5rem)/1.15 Georgia,serif; margin:0}
+#art-detail{display:block;width:100%;max-height:83dvh;object-fit:contain;background:#2c392f}
+.book[data-scene="10"] .art-window .scene-art{animation:none}
+@media (min-width:52rem){.game-shell > .book:has(> .cut-bar){grid-template-rows:auto auto minmax(3.15rem,auto)}.book > .cut-bar{margin:.30rem 0 0}}
+@media (prefers-reduced-motion:reduce){#cut-dots>span{transition:none}}
+@media (max-height: 665px) and (max-width: 34rem) {
+  .book .art-window{height:clamp(17.4rem,49svh,23rem)}
+  .book > .cut-bar{min-height:2.83rem;margin-top:.16rem}
+  .game-shell > .book:has(> .cut-bar){grid-template-rows:auto auto minmax(2.9rem,auto) auto}
+  .book .scene-copy .scene-description{line-height:1.34}
+}

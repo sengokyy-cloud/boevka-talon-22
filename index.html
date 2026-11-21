@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="theme-color" content="#252c23">
+  <meta name="description" content="Бумажное приключение через парк.">
+  <title>Боевка. Талон №22</title>
+  <link rel="icon" href="ticket.svg" type="image/svg+xml">
+  <link rel="preload" href="art/01.webp" as="image">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="finish.css">
+  <link rel="stylesheet" href="directors-cut.css">
+  <link rel="stylesheet" href="editing-room.css">
+  <link rel="stylesheet" href="one-screen.css">
+  <link rel="stylesheet" href="audio-gate.css">
+  <script defer src="story.js"></script>
+  <script defer src="paper-motion.js"></script>
+  <script defer src="cinema.js"></script>
+  <script defer src="shots.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <main class="game-shell">
+    <audio id="song" src="assets/song.mp3" preload="metadata" loop hidden></audio>
+    <section class="book game-stage is-cover" id="book" aria-label="Бумажное приключение">
+      <div class="art-slot">
+        <div class="art-window" id="picture">
+          <img class="scene-art scene-image" id="scene-art" src="art/01.webp" alt="Бумажный прокат с жёлтой вывеской и двумя фигурками" fetchpriority="high" width="941" height="1672">
+          <div class="note-card" id="note" hidden>
+            <p class="note-message" id="note-message"></p>
+            <div class="verse-slot" id="verse-slot" aria-label="Пустая страница для стихотворения"></div>
+            <p class="note-signature">Паша</p>
+            <div class="stamp" id="stamp"></div>
+          </div>
+          <div class="stage-fx" id="stage-fx" aria-hidden="true"></div>
+          <div class="flip-layer" aria-hidden="true">
+            <div class="flip-ground"></div>
+            <div class="flip-sheet"><div class="face-front"></div><div class="face-back"></div></div>
+            <div class="flip-shadow"></div>
+          </div>
+          <button type="button" class="hud-button" id="sound" hidden aria-label="Включить звук" aria-pressed="false" title="Звук"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h4l5-4v14l-5-4H3z"/><path class="sound-off" d="m16 10 5 5m0-5-5 5"/><path class="sound-on" d="M16 8q5 4 0 8m2-10q7 6 0 12"/></svg></button>
+          <div class="audio-gate" id="audio-gate">
+            <button type="button" id="start" class="audio-start">Включить музыку и начать</button>
+            <button type="button" id="resume" class="audio-resume" hidden>Продолжить с музыкой</button>
+            <p class="audio-state" id="audio-state" role="status"></p>
+          </div>
+          <div class="art-transport">
+            <div id="cut-dots" aria-hidden="true"></div>
+            <button type="button" id="skip-cut" hidden>К сцене</button>
+          </div>
+        </div>
+      </div>
+      <article class="scene-copy" id="scene-copy">
+        <div class="scene-heading">
+          <h1 class="scene-title" id="scene-title" tabindex="-1">Талон №22</h1>
+          <span class="scene-folio" id="folio" hidden></span>
+        </div>
+        <div class="scene-description" id="scene-desc">
+          <p>Одна прогулка на роликах, один порыв ветра и целая Боевка впереди.</p>
+          <p>Курск. Один летний день.</p>
+        </div>
+        <div class="scene-feedback status" id="feedback" aria-live="polite" hidden></div>
+        <div id="story-controls">
+          <div class="choices controls" id="choices">
+          </div>
+        </div>
+      </article>
+    </section>
+    <noscript><p class="noscript">Для бумажной игры нужен JavaScript. Открой страницу в браузере, чтобы пройти историю.</p></noscript>
+  </main>
+</body>
+</html>
